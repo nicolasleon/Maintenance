@@ -23,6 +23,7 @@
 namespace Maintenance\EventListener;
 
 use Maintenance\Controller\MaintenanceController;
+use Maintenance\Maintenance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -55,94 +56,96 @@ class MaintenanceListener implements EventSubscriberInterface
      */
     public function setMaintenanceView(FilterResponseEvent $event)
     {
-        $maintenance_mode = $this->maintenance_mode = ConfigQuery::read('com.omnitic.maintenance_mode');
+        if ((new Maintenance())->getModuleModel()->getActivate()) {
+            $maintenance_mode = $this->maintenance_mode = ConfigQuery::read('com.omnitic.maintenance_mode');
 
-        if($maintenance_mode) {
-            /**
-             * @var \Thelia\Core\HttpFoundation\Request
-             */
-            $request = $event->getRequest();
+            if($maintenance_mode) {
+                /**
+                 * @var \Thelia\Core\HttpFoundation\Request
+                 */
+                $request = $event->getRequest();
 
-            // Check that we're not an admin user
-            if($request->getSession()->getAdminUser() === null) {
-                $path = $request->getPathInfo();
+                // Check that we're not an admin user
+                if($request->getSession()->getAdminUser() === null) {
+                    $path = $request->getPathInfo();
 
-                // Check that we're not accessing admin pages
-                if (!preg_match("#^(/admin)#i", $path)) {
-                    // If not, use the controller to generate the response
-                    $controller = new MaintenanceController();
-                    $controller->setContainer($this->container);
+                    // Check that we're not accessing admin pages
+                    if (!preg_match("#^(/admin)#i", $path)) {
+                        // If not, use the controller to generate the response
+                        $controller = new MaintenanceController();
+                        $controller->setContainer($this->container);
 
-                    $event->setResponse(
-                        $controller->displayMaintenance()
-                    );
+                        $event->setResponse(
+                            $controller->displayMaintenance()
+                        );
 
-                    $event->stopPropagation();
+                        $event->stopPropagation();
+                    }
+                } else {
+                    /**
+                     * Only display a notice
+                     * WARNING: This must be a temporary solution before the hooks.
+                     */
+                    $response = $event->getResponse();
+
+                    /**
+                     * We only get the actual response, parse it with DOMDocument,
+                     * and add the required tag at the beginning
+                     */
+                    $content = $response->getContent();
+
+                    /**
+                     * Parse the actual response
+                     */
+                    $dom = new \DOMDocument();
+                    libxml_use_internal_errors(true);
+                    $dom->loadHTML($content);
+                    libxml_clear_errors();
+
+                    /**
+                     * Get the "body" node
+                     */
+                    $body = $dom->getElementsByTagName("body");
+
+                    /**
+                     * Just check that the response has a body node
+                     */
+                    if ($body->length > 0) {
+                        $real_body = $body->item(0);
+
+                        $maintenance_message = ConfigQuery::read('com.omnitic.maintenance_message');
+                        $class_name  = ConfigQuery::read('com.omnitic.maintenance_class_name');
+                        $wrapper_tag = ConfigQuery::read('com.omnitic.maintenance_wrapper_tag');
+
+                        /**
+                         * Then create a Document element with the variables define
+                         * up there.
+                         */
+                        $element = new \DOMElement($wrapper_tag, $maintenance_message);
+
+                        /**
+                         * Insert the element to make it writable
+                         */
+                        /** @var \DOMElement $inserted_element */
+                        $inserted_element = $real_body->insertBefore(
+                            $element,
+                            $real_body->firstChild
+                        );
+
+                        /**
+                         * Then add the attribute "class"
+                         */
+                        $inserted_element->setAttribute("class", $class_name);
+
+                        /**
+                         * Generate a string and set the new content into the response
+                         */
+                        $content = $dom->saveHTML();
+                        $response->setContent($content);
+                    }
                 }
-            } else {
-                /**
-                 * Only display a notice
-                 * WARNING: This must be a temporary solution before the hooks.
-                 */
-                $response = $event->getResponse();
 
-                /**
-                 * We only get the actual response, parse it with DOMDocument,
-                 * and add the required tag at the beginning
-                 */
-                $content = $response->getContent();
-
-                /**
-                 * Parse the actual response
-                 */
-                $dom = new \DOMDocument();
-                libxml_use_internal_errors(true);
-                $dom->loadHTML($content);
-                libxml_clear_errors();
-
-                /**
-                 * Get the "body" node
-                 */
-                $body = $dom->getElementsByTagName("body");
-
-                /**
-                 * Just check that the response has a body node
-                 */
-                if ($body->length > 0) {
-                    $real_body = $body->item(0);
-
-                    $maintenance_message = ConfigQuery::read('com.omnitic.maintenance_message');
-                    $class_name  = ConfigQuery::read('com.omnitic.maintenance_class_name');
-                    $wrapper_tag = ConfigQuery::read('com.omnitic.maintenance_wrapper_tag');
-
-                    /**
-                     * Then create a Document element with the variables define
-                     * up there.
-                     */
-                    $element = new \DOMElement($wrapper_tag, $maintenance_message);
-
-                    /**
-                     * Insert the element to make it writable
-                     */
-                    /** @var \DOMElement $inserted_element */
-                    $inserted_element = $real_body->insertBefore(
-                        $element,
-                        $real_body->firstChild
-                    );
-
-                    /**
-                     * Then add the attribute "class"
-                     */
-                    $inserted_element->setAttribute("class", $class_name);
-
-                    /**
-                     * Generate a string and set the new content into the response
-                     */
-                    $content = $dom->saveHTML();
-                    $response->setContent($content);
-                }
             }
-
         }
     }
 
