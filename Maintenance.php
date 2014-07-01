@@ -16,6 +16,8 @@ use Thelia\Module\BaseModule;
 
 class Maintenance extends BaseModule
 {
+    const MESSAGE_DOMAIN = "maintenance";
+
     private $settings = [
         'com.omnitic.maintenance_mode' => 1,
         'com.omnitic.maintenance_template_name' => 'maintenance',

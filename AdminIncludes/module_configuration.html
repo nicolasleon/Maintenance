@@ -25,7 +25,7 @@
                                 <div class="form-group {if $error}has-error{/if}">
                                     <input type="checkbox" class="form-control-om" name="{$name}" id="{$label_attr.for}" value="{$value}" {if {config key="com.omnitic.maintenance_mode"} == 1} checked{/if}/>
                                     <label for="{$label_attr.for}">
-                                        {intl l='Put the store in maintenance mode' d="maintenance.ai"}
+                                        {$label}
                                     </label>
                                     {if $error}
                                         <span class="help-block">{$message}</span>
@@ -36,9 +36,9 @@
                             {form_field form=$form field="maintenance_template_name"}
                                 <div class="form-group {if $error}has-error{/if}">
                                     <label for="{$label_attr.for}">
-                                        {intl l="Template name" d="maintenance.ai"}
+                                        {$label}
                                     </label>
-                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_template_name"}"/>
+                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_template_name"}" required/>
 
                                     {if $error}
                                         <span class="help-block">{$message}</span>
@@ -49,9 +49,9 @@
                             {form_field form=$form field="maintenance_message"}
                                 <div class="form-group {if $error}has-error{/if}">
                                     <label for="{$label_attr.for}">
-                                        {intl l="Reminder message" d="maintenance.ai"}
+                                        {$label}
                                     </label>
-                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_message"}"/>
+                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_message"}" required/>
 
                                     {if $error }
                                         <span class="help-block">{$message}</span>
