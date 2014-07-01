@@ -14,6 +14,7 @@ use Maintenance\Form\MaintenanceSettingsForm;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Form\Exception\FormValidationException;
 use Thelia\Model\ConfigQuery;
 
 
@@ -31,26 +32,39 @@ class MaintenanceAdminController extends BaseAdminController
             return $response;
         }
 
-        $request = $this->getRequest();
+        $m_form = new MaintenanceSettingsForm($this->getRequest());
 
-        $m_form = new MaintenanceSettingsForm($request);
+        $error_message = null;
 
-        $form = $this->validateForm($m_form);
-        $data = $form->getData();
+        try {
+            $form = $this->validateForm($m_form);
+            $data = $form->getData();
 
-        $maintenance_mode = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_mode');
-        $maintenance_mode->setValue($data['maintenance_mode'] ? 1 : 0);
-        $maintenance_mode->save();
+            ConfigQuery::write('com.omnitic.maintenance_mode', (bool)$data['maintenance_mode']);
+            ConfigQuery::write('com.omnitic.maintenance_template_name', $data['maintenance_template_name']);
+            ConfigQuery::write('com.omnitic.maintenance_message', $data['maintenance_message']);
 
-        $maintenance_mode = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_template_name');
-        $maintenance_mode->setValue($data['maintenance_template_name']);
-        $maintenance_mode->save();
+        } catch(FormValidationException $e) {
+            $error_message = $this->createStandardFormValidationErrorMessage($e);
+        } catch(\Exception $e) {
+            $error_message = $e->getMessage();
+        }
 
-        $maintenance_mode = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_message');
-        $maintenance_mode->setValue($data['maintenance_message']);
-        $maintenance_mode->save();
+        if($error_message !== null) {
+            $m_form->setErrorMessage($error_message);
 
-        $this->redirectToRoute("admin.module.configure", [], ['module_code' => 'Maintenance']);
+            $this->getParserContext()
+                ->addForm($m_form)
+                ->setGeneralError($error_message)
+            ;
+        }
+
+        return $this->render(
+            "module-configure",
+            [
+                'module_code' => 'Maintenance'
+            ]
+        );
     }
 
 }

@@ -44,6 +44,7 @@ class MaintenanceListener implements EventSubscriberInterface
      */
     protected $parser;
 
+    protected $maintenance_mode;
 
     public function __construct(ParserInterface $parser)
     {
@@ -58,10 +59,9 @@ class MaintenanceListener implements EventSubscriberInterface
      */
     public function setMaintenanceView(FilterResponseEvent $event)
     {
-        $maintenance = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_mode');
-        $this->maintenance_mode = $maintenance->getValue();
+        $maintenance_mode = $this->maintenance_mode = ConfigQuery::read('com.omnitic.maintenance_mode');
 
-        if($this->maintenance_mode == 1) {
+        if($maintenance_mode) {
             $request = $event->getRequest();
 
             // Check that we're not an admin user
@@ -72,9 +72,9 @@ class MaintenanceListener implements EventSubscriberInterface
                 if (!preg_match("#^(/admin)#i", $path)) {
                     // Define the template that will be use to render the store front maintenance page
                     $this->parser->setTemplateDefinition(TemplateHelper::getInstance()->getActiveFrontTemplate());
-                    $maintenance_template_name = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_template_name');
+                    $maintenance_template_name = ConfigQuery::read('com.omnitic.maintenance_template_name');
 
-                    $content = $this->parser->render($maintenance_template_name->getValue() . ".html");
+                    $content = $this->parser->render($maintenance_template_name . ".html");
 
                     if ($content instanceof Response) {
                         $response = $content;
@@ -102,9 +102,9 @@ class MaintenanceListener implements EventSubscriberInterface
             $request = $event->getRequest();
 
 
-            $maintenance_message = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_message')->getValue();
-            $class_name = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_class_name')->getValue();
-            $wrapper_tag = ConfigQuery::create()->findOneByName('com.omnitic.maintenance_wrapper_tag')->getValue();
+            $maintenance_message = ConfigQuery::read('com.omnitic.maintenance_message');
+            $class_name = ConfigQuery::read('com.omnitic.maintenance_class_name');
+            $wrapper_tag = ConfigQuery::read('com.omnitic.maintenance_wrapper_tag');
             $message = <<<MM
             <$wrapper_tag class="{$class_name}">
                 $maintenance_message

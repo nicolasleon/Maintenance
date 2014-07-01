@@ -12,38 +12,51 @@
                         {intl l="Configure the maintenance module" d="maintenance.ai"}
                     </div>
                     <div class="panel-body">
-                        {if isset($smarty.get.errmes) and !empty($smarty.get.errmes)}
-                            <div class="alert alert-danger">
-                                {$smarty.get.errmes}
-                            </div>
-                        {/if}
                         {form name="admin_maintenance_settings"}
+                            {if $form_error}
+                                <div class="alert alert-danger">
+                                    {$form_error_message}
+                                </div>
+                            {/if}
+
                             {form_hidden_fields form=$form}
+
                             {form_field form=$form field="maintenance_mode"}
-                            <div class="form-group {if $error}has-error{/if}">
-                                <input type="checkbox" class="form-control-om" name="{$name}" id="{$label_attr.for}" value="{$value}" {if {config key="com.omnitic.maintenance_mode"} == 1} checked{/if}/>
-                                <label for="{$label_attr.for}">
-                                    {intl l='Put the store in maintenance mode' d="maintenance.ai"}
-                                </label>
-                            </div>
+                                <div class="form-group {if $error}has-error{/if}">
+                                    <input type="checkbox" class="form-control-om" name="{$name}" id="{$label_attr.for}" value="{$value}" {if {config key="com.omnitic.maintenance_mode"} == 1} checked{/if}/>
+                                    <label for="{$label_attr.for}">
+                                        {intl l='Put the store in maintenance mode' d="maintenance.ai"}
+                                    </label>
+                                    {if $error}
+                                        <span class="help-block">{$message}</span>
+                                    {/if}
+                                </div>
                             {/form_field}
 
                             {form_field form=$form field="maintenance_template_name"}
-                            <div class="form-group {if $error}has-error{/if}">
-                                <label for="{$label_attr.for}">
-                                    {intl l="Template name" d="maintenance.ai"}
-                                </label>
-                                <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_template_name"}"/>
-                            </div>
+                                <div class="form-group {if $error}has-error{/if}">
+                                    <label for="{$label_attr.for}">
+                                        {intl l="Template name" d="maintenance.ai"}
+                                    </label>
+                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_template_name"}"/>
+
+                                    {if $error}
+                                        <span class="help-block">{$message}</span>
+                                    {/if}
+                                </div>
                             {/form_field}
 
                             {form_field form=$form field="maintenance_message"}
-                            <div class="form-group {if $error}has-error{/if}">
-                                <label for="{$label_attr.for}">
-                                    {intl l="Reminder message" d="maintenance.ai"}
-                                </label>
-                                <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_message"}"/>
-                            </div>
+                                <div class="form-group {if $error}has-error{/if}">
+                                    <label for="{$label_attr.for}">
+                                        {intl l="Reminder message" d="maintenance.ai"}
+                                    </label>
+                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_message"}"/>
+
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                    {/if}
+                                </div>
                             {/form_field}
 
                         <div class="form-group">
