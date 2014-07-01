@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <fullnamespace>Maintenance\Maintenance</fullnamespace>
+    <descriptive locale="en_US">
+        <title>Maintenance mode</title>
+    </descriptive>
+    <descriptive locale="fr_FR">
+        <title>Mode Maintenance</title>
+    </descriptive>
+    <version>0.2</version>
+    <author>
+        <name>Nicolas Léon</name>
+        <email>nicolas@omnitic.com</email>
+    </author>
+    <type>classic</type>
+    <thelia>2.0.0</thelia>
+    <stability>alpha</stability>
+</module>
