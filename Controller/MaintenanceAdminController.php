@@ -17,7 +17,6 @@ use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Model\ConfigQuery;
 
-
 /**
  * Class MaintenanceAdminController
  * @package Maintenance\Controller
@@ -41,17 +40,17 @@ class MaintenanceAdminController extends BaseAdminController
             $form = $this->validateForm($m_form, "post");
             $data = $form->getData();
 
-            ConfigQuery::write('com.omnitic.maintenance_mode', (bool)$data['maintenance_mode']);
+            ConfigQuery::write('com.omnitic.maintenance_mode', (bool) $data['maintenance_mode']);
             ConfigQuery::write('com.omnitic.maintenance_template_name', $data['maintenance_template_name']);
             ConfigQuery::write('com.omnitic.maintenance_message', $data['maintenance_message']);
 
-        } catch(FormValidationException $e) {
+        } catch (FormValidationException $e) {
             $error_message = $this->createStandardFormValidationErrorMessage($e);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $error_message = $e->getMessage();
         }
 
-        if($error_message !== null) {
+        if ($error_message !== null) {
             $m_form->setErrorMessage($error_message);
 
             $this->getParserContext()

@@ -37,4 +37,4 @@ class MaintenanceController extends BaseFrontController
 
         return $parser;
     }
-} 
+}

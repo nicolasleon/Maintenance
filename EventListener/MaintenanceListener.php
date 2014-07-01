@@ -59,14 +59,14 @@ class MaintenanceListener implements EventSubscriberInterface
         if ((new Maintenance())->getModuleModel()->getActivate()) {
             $maintenance_mode = $this->maintenance_mode = ConfigQuery::read('com.omnitic.maintenance_mode');
 
-            if($maintenance_mode) {
+            if ($maintenance_mode) {
                 /**
                  * @var \Thelia\Core\HttpFoundation\Request
                  */
                 $request = $event->getRequest();
 
                 // Check that we're not an admin user
-                if($request->getSession()->getAdminUser() === null) {
+                if ($request->getSession()->getAdminUser() === null) {
                     $path = $request->getPathInfo();
 
                     // Check that we're not accessing admin pages
@@ -144,7 +144,6 @@ class MaintenanceListener implements EventSubscriberInterface
                         $response->setContent($content);
                     }
                 }
-
             }
         }
     }

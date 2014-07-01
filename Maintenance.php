@@ -26,33 +26,32 @@ class Maintenance extends BaseModule
         'com.omnitic.maintenance_wrapper_tag' => 'div',
     ];
 
-
     /*
     * Install the default module settings
     *
     */
     public function postActivation(ConnectionInterface $con = null)
     {
-        foreach($this->settings as $setting_name => $value) {
+        foreach ($this->settings as $setting_name => $value) {
             $setting = ConfigQuery::read($setting_name);
 
-            if(empty($setting)) {
+            if (empty($setting)) {
                 ConfigQuery::write($setting_name, $value, null, 1);
             }
         }
 
     }
 
-
     /*
      * Delete module data on module destroy
      *
      *
      */
-    public function destroy(ConnectionInterface $con = null, $deleteModuleData = false) {
-        foreach($this->settings as $setting_name => $value) {
+    public function destroy(ConnectionInterface $con = null, $deleteModuleData = false)
+    {
+        foreach ($this->settings as $setting_name => $value) {
             $setting = ConfigQuery::create()->findOneByName($setting_name);
-            if($setting !== null) {
+            if ($setting !== null) {
                 $setting->delete();
             }
         }
