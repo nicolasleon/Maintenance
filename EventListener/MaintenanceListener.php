@@ -31,9 +31,10 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Thelia\Model\ConfigQuery;
 
 /**
- * Class SendEMail
- * @package IciRelais\Listener
- * @author Thelia <info@thelia.net>
+ * Class MaintenanceListener
+ * @package Maintenance\EventListener
+ * @author Benjamin Perche <bperche@openstudio.fr>
+ * @author Nicolas Léon <nicolas@omnitic.com>
  */
 class MaintenanceListener implements EventSubscriberInterface
 {

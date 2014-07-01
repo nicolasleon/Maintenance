@@ -22,6 +22,7 @@ use Thelia\Model\ConfigQuery;
  * Class MaintenanceAdminController
  * @package Maintenance\Controller
  * @author Nicolas Léon <nicolas@omnitic.com>
+ * @author Benjamin Perche <bperche@openstudio.fr>
  */
 class MaintenanceAdminController extends BaseAdminController
 {

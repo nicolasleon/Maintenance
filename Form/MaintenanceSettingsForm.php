@@ -14,7 +14,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 
-
+/**
+ * Class MaintenanceSettingsForm
+ * @package Maintenance\Form
+ * @author Nicolas Léon <nicolas@omnitic.com>
+ * @author Benjamin Perche <bperche@openstudio.fr>
+ */
 class MaintenanceSettingsForm extends BaseForm
 {
     protected function buildForm()
