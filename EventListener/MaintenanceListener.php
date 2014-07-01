@@ -22,14 +22,12 @@
 
 namespace Maintenance\EventListener;
 
+use Maintenance\Controller\MaintenanceController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-use Thelia\Core\Template\ParserInterface;
-use Thelia\Core\Template\TemplateHelper;
 use Thelia\Model\ConfigQuery;
 
 /**
@@ -39,16 +37,13 @@ use Thelia\Model\ConfigQuery;
  */
 class MaintenanceListener implements EventSubscriberInterface
 {
-    /**
-     * @var ParserInterface
-     */
-    protected $parser;
+    protected $container;
 
     protected $maintenance_mode;
 
-    public function __construct(ParserInterface $parser)
+    public function __construct(ContainerInterface $container)
     {
-        $this->parser = $parser;
+        $this->container = $container;
     }
 
     /*
@@ -62,6 +57,9 @@ class MaintenanceListener implements EventSubscriberInterface
         $maintenance_mode = $this->maintenance_mode = ConfigQuery::read('com.omnitic.maintenance_mode');
 
         if($maintenance_mode) {
+            /**
+             * @var \Thelia\Core\HttpFoundation\Request
+             */
             $request = $event->getRequest();
 
             // Check that we're not an admin user
@@ -70,19 +68,77 @@ class MaintenanceListener implements EventSubscriberInterface
 
                 // Check that we're not accessing admin pages
                 if (!preg_match("#^(/admin)#i", $path)) {
-                    // Define the template that will be use to render the store front maintenance page
-                    $this->parser->setTemplateDefinition(TemplateHelper::getInstance()->getActiveFrontTemplate());
-                    $maintenance_template_name = ConfigQuery::read('com.omnitic.maintenance_template_name');
+                    // If not, use the controller to generate the response
+                    $controller = new MaintenanceController();
+                    $controller->setContainer($this->container);
 
-                    $content = $this->parser->render($maintenance_template_name . ".html");
+                    $event->setResponse(
+                        $controller->displayMaintenance()
+                    );
 
-                    if ($content instanceof Response) {
-                        $response = $content;
-                    } else {
-                        $response = new Response($content, $this->parser->getStatus() ?: 200);
-                    }
-                    $event->setResponse($response);
+                    $event->stopPropagation();
+                }
+            } else {
+                /**
+                 * Only display a notice
+                 * WARNING: This must be a temporary solution before the hooks.
+                 */
+                $response = $event->getResponse();
 
+                /**
+                 * We only get the actual response, parse it with DOMDocument,
+                 * and add the required tag at the beginning
+                 */
+                $content = $response->getContent();
+
+                /**
+                 * Parse the actual response
+                 */
+                $dom = new \DOMDocument();
+                libxml_use_internal_errors(true);
+                $dom->loadHTML($content);
+                libxml_clear_errors();
+
+                /**
+                 * Get the "body" node
+                 */
+                $body = $dom->getElementsByTagName("body");
+
+                /**
+                 * Just check that the response has a body node
+                 */
+                if ($body->length > 0) {
+                    $real_body = $body->item(0);
+
+                    $maintenance_message = ConfigQuery::read('com.omnitic.maintenance_message');
+                    $class_name  = ConfigQuery::read('com.omnitic.maintenance_class_name');
+                    $wrapper_tag = ConfigQuery::read('com.omnitic.maintenance_wrapper_tag');
+
+                    /**
+                     * Then create a Document element with the variables define
+                     * up there.
+                     */
+                    $element = new \DOMElement($wrapper_tag, $maintenance_message);
+
+                    /**
+                     * Insert the element to make it writable
+                     */
+                    /** @var \DOMElement $inserted_element */
+                    $inserted_element = $real_body->insertBefore(
+                        $element,
+                        $real_body->firstChild
+                    );
+
+                    /**
+                     * Then add the attribute "class"
+                     */
+                    $inserted_element->setAttribute("class", $class_name);
+
+                    /**
+                     * Generate a string and set the new content into the response
+                     */
+                    $content = $dom->saveHTML();
+                    $response->setContent($content);
                 }
             }
 
@@ -90,47 +146,12 @@ class MaintenanceListener implements EventSubscriberInterface
     }
 
     /**
-     * Displays a maintenance mode reminder for logged in store admins
-     *
-     * @params FilterResponseEvent $event
-     *
-     */
-    public function displayMaintenanceReminder(FilterResponseEvent $event)
-    {
-        if($this->maintenance_mode) {
-            $response = $event->getResponse();
-            $request = $event->getRequest();
-
-
-            $maintenance_message = ConfigQuery::read('com.omnitic.maintenance_message');
-            $class_name = ConfigQuery::read('com.omnitic.maintenance_class_name');
-            $wrapper_tag = ConfigQuery::read('com.omnitic.maintenance_wrapper_tag');
-            $message = <<<MM
-            <$wrapper_tag class="{$class_name}">
-                $maintenance_message
-            </$wrapper_tag>
-MM;
-            // Check that we're an admin and not viewing the store backend
-            $path = $request->getPathInfo();
-            if ($request->getSession()->getAdminUser() && !preg_match("#^(/admin)#i", $path)) {
-                $content = preg_replace('/(<body[^>]*>)/i', '$1' . $message, $response->getContent());
-                $response = new Response($content, $this->parser->getStatus() ?: 200);
-                $event->setResponse($response);
-            }
-        }
-    }
-
-
-    /**
      * Returns an array of event names this subscriber wants to listen to.
      */
     public static function getSubscribedEvents()
     {
         return array(
-            KernelEvents::RESPONSE => [
-                ["setMaintenanceView", 128],
-                ["displayMaintenanceReminder", 128]
-            ]
+            KernelEvents::RESPONSE => ["setMaintenanceView", 128]
         );
     }
 
