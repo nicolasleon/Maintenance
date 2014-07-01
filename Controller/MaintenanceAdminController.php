@@ -37,7 +37,7 @@ class MaintenanceAdminController extends BaseAdminController
         $error_message = null;
 
         try {
-            $form = $this->validateForm($m_form);
+            $form = $this->validateForm($m_form, "post");
             $data = $form->getData();
 
             ConfigQuery::write('com.omnitic.maintenance_mode', (bool)$data['maintenance_mode']);

@@ -8,7 +8,7 @@
         <default key="_controller">Maintenance\Controller\MaintenanceAdminController::indexAction</default>
     </route>
 
-    <route id="maintenance.update" path="/admin/module/maintenance/configure">
+    <route id="maintenance.update" path="/admin/module/maintenance/configure" methods="post">
         <default key="_controller">Maintenance\Controller\MaintenanceAdminController::configureAction</default>
     </route>
 
