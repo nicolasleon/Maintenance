@@ -58,8 +58,6 @@ git submodule add https://github.com/nicolasleon/Maintenance.git local/modules/M
 
 Pour installer le module, copiez le dossier Maintenance dans le répertoire /local/modules situé à la racine de votre dossier Thelia (mon-dossier-thelia/local/modules).
 
-Copiez le fichier maintenance.html dans le dossier /template/frontOffice/default.
-
 Activez le module dans l'interface d'administration Thelia.
 
 
@@ -75,7 +73,7 @@ Les paramètres disponibles sont les suivants :
 
 **Message d'attente**: Un message à afficher sur la page de maintenance quand la boutique est en maintenance.
 
-**Adresses ip authorisées**: Liste des adresses ip pouvant accéder à la boutique quand celle-ci est en maintenance ("212.127.1.5, 192.135.0.1").
+**Adresses ip autorisées**: Liste des adresses ip pouvant accéder à la boutique quand celle-ci est en maintenance ("212.127.1.5, 192.135.0.1").
 
 ## Utilisation
 
