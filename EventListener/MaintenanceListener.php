@@ -65,21 +65,30 @@ class MaintenanceListener implements EventSubscriberInterface
                  */
                 $request = $event->getRequest();
 
-                // Check that we're not an admin user
-                if ($request->getSession()->getAdminUser() === null) {
-                    $path = $request->getPathInfo();
+                // Check that the current request ip address is in the white list
+                $allowed_ips = explode(',', ConfigQuery::read('com.omnitic.maintenance_allowed_ips'));
+                $allowed_ips[] = '127.0.0.1';
+                $current_ip = $request->server->get('REMOTE_ADDR');
+                $path = $request->getPathInfo();
 
-                    // Check that we're not accessing admin pages
-                    if (!preg_match("#^(/admin)#i", $path)) {
-                        // If not, use the controller to generate the response
-                        $controller = new MaintenanceController();
-                        $controller->setContainer($this->container);
+                // Check that we're not an allowed ip address
+                if(!in_array($current_ip, $allowed_ips)) {
 
-                        $event->setResponse(
-                            $controller->displayMaintenance()
-                        );
+                    // Check that we're not an admin user
+                    if ($request->getSession()->getAdminUser() === null) {
 
-                        $event->stopPropagation();
+                        // Check that we're not accessing admin pages
+                        if (!preg_match("#^(/admin)#i", $path)) {
+                            // If not, use the controller to generate the response
+                            $controller = new MaintenanceController();
+                            $controller->setContainer($this->container);
+
+                            $event->setResponse(
+                                $controller->displayMaintenance()
+                            );
+
+                            $event->stopPropagation();
+                        }
                     }
                 } else {
                     /**
@@ -140,7 +149,8 @@ class MaintenanceListener implements EventSubscriberInterface
                         /**
                          * Generate a string and set the new content into the response
                          */
-                        $content = $dom->saveHTML();
+                        if (!preg_match("#^(/admin)#i", $path))
+                            $content = $dom->saveHTML();
                         $response->setContent($content);
                     }
                 }

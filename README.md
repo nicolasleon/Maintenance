@@ -13,8 +13,6 @@ git submodule add https://github.com/nicolasleon/Maintenance.git local/modules/M
 
 To install the module, copy the folder Maintenance into your ```modules/``` directory (install_dir/local/modules).
 
-Copy maintenance.html file to /templates/frontOffice/default
-
 Next, go to your Thelia admin panel and activate the module.
 
 
@@ -26,15 +24,19 @@ Under the Configure tab you can set the following options:
 
 **Put the store in maintenance mode**: Check the box to put the store in maintenance mode.
 
-**Maintenance page name**: the name of the template to be displayed when the maintenance mode is active (See the provided maintenance.html in templates/fontOffice/default folder of the module).
+**Maintenance page name**: the name of the template to be displayed when the maintenance mode is active (See the provided templates in /templates/fontOffice/module_maintenance folder of the module).
 
 **Reminder message**: a message to display in the store front when the maintenance mode is active.
+
+**Allowed ips**: Ip addresses that are allowed to see the store in maintenance mode is active (e.g.: "212.127.1.5, 192.135.0.1")
 
 
 ## How to use
 
 Click on "Configure" button and check "Put the store in maintenance mode".
 Define the message displayed to the shop visitors in Reminder message field.
+
+The maintenance templates are stored in Maintenance/templates/frontOffice/maintenance_module folder. There are 3 samples maintenance templates provided (maintenance, simple and light) with the modules. Feel free to customize them to best match your store design.
 
 Save you settings. The store is now in maintenance mode.
 
@@ -73,12 +75,15 @@ Les paramètres disponibles sont les suivants :
 
 **Message d'attente**: Un message à afficher sur la page de maintenance quand la boutique est en maintenance.
 
+**Adresses ip authorisées**: Liste des adresses ip pouvant accéder à la boutique quand celle-ci est en maintenance ("212.127.1.5, 192.135.0.1").
 
 ## Utilisation
 
 Réglez les paramètres du module, cochez la case "Afficher le mode maintenance".
 Click on "Configure" button and check "Put the store in maintenance mode".
 Define the message displayed to the shop visitors in Reminder message field.
+
+Les templates du mode maintenance sont définis dans /templates/frontOffice/module_maintenance. N'hésitez pas à personnaliser les 3 (maintenance, simple et light) exemples fournis pour mieux correspondre au design de votre boutique.
 
 Enregistrez vos paramètres. La boutique est en mode maintenance. Pour quittez le mode maintenance décochez la case et enregistreé votre configuration.
 

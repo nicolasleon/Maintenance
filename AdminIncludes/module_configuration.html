@@ -59,6 +59,19 @@
                                 </div>
                             {/form_field}
 
+                            {form_field form=$form field="allowed_ips"}
+                                <div class="form-group {if $error}has-error{/if}">
+                                    <label for="{$label_attr.for}">
+                                        {$label}
+                                    </label>
+                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.ip_access"}" placeholder="212.12.12.3"/>
+
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                    {/if}
+                                </div>
+                            {/form_field}
+
                         <div class="form-group">
                             <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="{intl l='Save changes'}">{intl l='Save changes'} <span class="glyphicon glyphicon-ok"></span></button>
                         </div>

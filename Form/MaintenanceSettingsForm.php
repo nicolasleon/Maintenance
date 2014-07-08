@@ -64,6 +64,20 @@ class MaintenanceSettingsForm extends BaseForm
                         new NotBlank(),
                     )
                 ))
+            ->add('allowed_ips', 'text', array(
+                    'label' => $translator->trans(
+                        "Authorized IP address(es)",
+                        [],
+                        Maintenance::MESSAGE_DOMAIN
+                    ),
+                    'label_attr' => array(
+                        'for' => 'allowed_ips'
+                    ),
+                    "required" => false,
+                    // "constraints" => array(
+                    //     new NotBlank(),
+                    // )
+                ))
         ;
     }
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="author" content="{config key="store_name"}">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
+    <title>{config key="store_name"}</title>
+    <style type="text/css">
+        .paper {
+            font-family: "Open Sans", sans serif;
+            background-color: #466176;
+        }
+        .message {
+            margin:10% auto;
+            padding:30px;
+            width:50%;
+        }
+        .message {
+            text-align: center;
+            color: #fff;
+            font-size:18px;
+        }
+        .message > p:nth-child(2) {
+            font-size:24px;
+        }
+    </style>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body class="paper">
+    <div class="message">
+        <p>{config key="store_name"}</p>
+        <p>{config key="com.omnitic.maintenance_message"}</p>
+        <p><i class="fa fa-cog fa-spin"></i></p>
+    </div>
+  </body>
+</html>
