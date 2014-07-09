@@ -43,6 +43,7 @@ class MaintenanceAdminController extends BaseAdminController
             ConfigQuery::write('com.omnitic.maintenance_mode', (bool) $data['maintenance_mode']);
             ConfigQuery::write('com.omnitic.maintenance_template_name', $data['maintenance_template_name']);
             ConfigQuery::write('com.omnitic.maintenance_message', $data['maintenance_message']);
+            ConfigQuery::write('com.omnitic.maintenance_allowed_ips', $data['allowed_ips']);
 
         } catch (FormValidationException $e) {
             $error_message = $this->createStandardFormValidationErrorMessage($e);
