@@ -108,7 +108,7 @@ class MaintenanceListener implements EventSubscriberInterface
                      */
                     $dom = new \DOMDocument();
                     libxml_use_internal_errors(true);
-                    $dom->loadHTML($content);
+                    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content);
                     libxml_clear_errors();
 
                     /**
@@ -149,9 +149,11 @@ class MaintenanceListener implements EventSubscriberInterface
                         /**
                          * Generate a string and set the new content into the response
                          */
-                        if (!preg_match("#^(/admin)#i", $path))
+                        if (!preg_match("#^(/admin)#i", $path)) {
+                            // $dom->substituteEntities = false;
                             $content = $dom->saveHTML();
-                        $response->setContent($content);
+                        }
+                        $response->setContent(str_replace('<?xml encoding="utf-8" ?>', '', $content));
                     }
                 }
             }
