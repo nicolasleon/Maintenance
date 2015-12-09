@@ -33,9 +33,11 @@
   </head>
   <body class="paper">
     <div class="message">
-        <p>
-            <img src="{image file={config key='com.omnitic.maintenance_image'} template={config key='active-front-template'}}" alt="{config key='com.omnitic.maintenance_image_alt'}" />
-        </p>
+        {if {config key='com.omnitic.maintenance_image'} != ''}
+            <p>
+                <img src="{image file={config key='com.omnitic.maintenance_image'} template={config key='active-front-template'}}" alt="{config key='com.omnitic.maintenance_image_alt'}" />
+            </p>
+        {/if}
         <p>{config key="store_name"}</p>
         <p>{config key="com.omnitic.maintenance_message"}</p>
     </div>

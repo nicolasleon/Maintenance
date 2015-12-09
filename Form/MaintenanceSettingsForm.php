@@ -59,9 +59,6 @@ class MaintenanceSettingsForm extends BaseForm
                     ),
                     'data' => $image,
                     "required" => false,
-                    "constraints" => array(
-                        new NotBlank(),
-                    )
                 ))
             ->add('maintenance_image_alt', 'text', array(
                     'label' => $translator->trans(
@@ -79,9 +76,6 @@ class MaintenanceSettingsForm extends BaseForm
                     ),
                     'data' => $image_alt,
                     "required" => false,
-                    "constraints" => array(
-                        new NotBlank(),
-                    )
                 ))
             ->add('maintenance_template_name', 'choice', array(
                     'label' => $translator->trans(
