@@ -1,4 +1,4 @@
-
+{* Maintenance maintenance mode template *}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,7 +25,7 @@
         .message {
             text-align: center;
         }
-        .message > p:nth-child(2) {
+        .message > p:nth-child(3) {
             font-size:16px;
         }
     </style>
@@ -33,6 +33,9 @@
   </head>
   <body class="paper">
     <div class="message">
+        <p>
+            <img src="{image file={config key='com.omnitic.maintenance_image'} template={config key='active-front-template'}}" alt="{config key='com.omnitic.maintenance_image_alt'}" />
+        </p>
         <p>{config key="store_name"}</p>
         <p>{config key="com.omnitic.maintenance_message"}</p>
     </div>

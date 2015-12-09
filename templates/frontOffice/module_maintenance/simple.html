@@ -1,3 +1,5 @@
+{* Simple maintenance mode template *}
+{declare_assets directory="assets"}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,10 +29,13 @@
         }
     </style>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body class="paper">
     <div class="message">
+        <p>
+            <img src="{image file={config key='com.omnitic.maintenance_image'} template={config key='active-front-template'}}" alt="{config key='com.omnitic.maintenance_image_alt'}" />
+        </p>
         <p>{config key="store_name"}</p>
         <p>{config key="com.omnitic.maintenance_message"}</p>
         <p><i class="fa fa-cog fa-spin"></i></p>

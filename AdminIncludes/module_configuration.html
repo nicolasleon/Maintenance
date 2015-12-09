@@ -1,4 +1,4 @@
-<div class="general-block-decorator">
+<div class="general-block-decorator" style="overflow:hidden;">
     <div class="col-md-12">
         <ul id="tabbed-menu" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#configure_account">{intl l="Maintenance mode" d="maintenance.ai"}</a></li>
@@ -32,19 +32,11 @@
                                     {/if}
                                 </div>
                             {/form_field}
+                            {render_form_field form=$form field="maintenance_image"}
 
-                            {form_field form=$form field="maintenance_template_name"}
-                                <div class="form-group {if $error}has-error{/if}">
-                                    <label for="{$label_attr.for}">
-                                        {$label}
-                                    </label>
-                                    <input class="form-control" name="{$name}" id="{$label_attr.for}" value="{config key="com.omnitic.maintenance_template_name"}" required/>
+                            {render_form_field form=$form field="maintenance_image_alt"}
 
-                                    {if $error}
-                                        <span class="help-block">{$message}</span>
-                                    {/if}
-                                </div>
-                            {/form_field}
+                            {render_form_field form=$form field="maintenance_template_name"}
 
                             {form_field form=$form field="maintenance_message"}
                                 <div class="form-group {if $error}has-error{/if}">
@@ -59,7 +51,7 @@
                                 </div>
                             {/form_field}
 
-                            {form_field form=$form field="maintenance_allowed_ips"}
+{*                             {form_field form=$form field="maintenance_allowed_ips"}
                                 <div class="form-group {if $error}has-error{/if}">
                                     <label for="{$label_attr.for}">
                                         {$label}
@@ -70,7 +62,8 @@
                                         <span class="help-block">{$message}</span>
                                     {/if}
                                 </div>
-                            {/form_field}
+                            {/form_field} *}
+                            {render_form_field form=$form field="maintenance_allowed_ips"}
 
                         <div class="form-group">
                             <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="{intl l='Save changes'}">{intl l='Save changes'} <span class="glyphicon glyphicon-ok"></span></button>
@@ -81,6 +74,5 @@
             </form>
             </div>
         </div>
-
     </div>
 </div>

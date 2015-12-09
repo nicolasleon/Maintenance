@@ -41,6 +41,8 @@ class MaintenanceAdminController extends BaseAdminController
             $data = $form->getData();
 
             ConfigQuery::write('com.omnitic.maintenance_mode', (bool) $data['maintenance_mode']);
+            ConfigQuery::write('com.omnitic.maintenance_image', $data['maintenance_image']);
+            ConfigQuery::write('com.omnitic.maintenance_image_alt', $data['maintenance_image_alt']);
             ConfigQuery::write('com.omnitic.maintenance_template_name', $data['maintenance_template_name']);
             ConfigQuery::write('com.omnitic.maintenance_message', $data['maintenance_message']);
             ConfigQuery::write('com.omnitic.maintenance_allowed_ips', str_replace(' ', '', $data['maintenance_allowed_ips']));
