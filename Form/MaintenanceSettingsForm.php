@@ -33,7 +33,14 @@ class MaintenanceSettingsForm extends BaseForm
                         [],
                         Maintenance::MESSAGE_DOMAIN
                     ),
-                    'label_attr' => ['for' => 'maintenance_mode' ],
+                    'label_attr' => [
+                        'for' => 'maintenance_mode',
+                        'help' => $this->translator->trans(
+                            'Lorsque cette case est cochée, votre boutique n\'est plus accessible à vos clients.',
+                            [],
+                            Maintenance::MESSAGE_DOMAIN
+                        )
+                    ],
                     'required' => false,
                 ))
             ->add('maintenance_template_name', 'text', array(
@@ -43,21 +50,31 @@ class MaintenanceSettingsForm extends BaseForm
                         Maintenance::MESSAGE_DOMAIN
                     ),
                     'label_attr' => array(
-                        'for' => 'maintenance_template_name'
+                        'for' => 'maintenance_template_name',
+                        'help' => $this->translator->trans(
+                            'This is the name of the HTML template displayed to your customers. The module provides the following templates : "maintenance", "light" and "simple", but feel free to make your own template, and put its name here.',
+                            [],
+                            Maintenance::MESSAGE_DOMAIN
+                        )
                     ),
                     'required' => true,
                     'constraints' => array(
                         new NotBlank(),
                     )
                 ))
-            ->add('maintenance_message', 'text', array(
+            ->add('maintenance_message', 'textarea', array(
                     'label' => $translator->trans(
                         "Reminder message",
                         [],
                         Maintenance::MESSAGE_DOMAIN
                     ),
                     'label_attr' => array(
-                        'for' => 'maintenance_message'
+                        'for' => 'maintenance_message',
+                        'help' => $this->translator->trans(
+                            'This message will be displayed to your customers.',
+                            [],
+                            Maintenance::MESSAGE_DOMAIN
+                        )
                     ),
                     "required" => true,
                     "constraints" => array(
@@ -71,7 +88,12 @@ class MaintenanceSettingsForm extends BaseForm
                         Maintenance::MESSAGE_DOMAIN
                     ),
                     'label_attr' => array(
-                        'for' => 'allowed_ips'
+                        'for' => 'allowed_ips',
+                        'help' => $this->translator->trans(
+                            'Enter here a comma separated list of the IP addresses that will be allowed to access the shop when maintenance mode is enabled. Your IP address is currently %ip.',
+                            [ "%ip" => $this->getRequest()->getClientIp()],
+                            Maintenance::MESSAGE_DOMAIN
+                        )
                     ),
                     "required" => false,
                     // "constraints" => array(

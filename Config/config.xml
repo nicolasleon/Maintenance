@@ -4,17 +4,28 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
 
-
     <forms>
         <form name="admin_maintenance_settings" class="Maintenance\Form\MaintenanceSettingsForm" />
     </forms>
 
     <services>
-        <service id="maintenance.listener" class="Maintenance\EventListener\MaintenanceListener" scope="request">
-            <argument type="service" id="service_container" />
+        <service id="maintenance.listener" class="Maintenance\EventListener\MaintenanceListener">
+            <argument>%kernel.debug%</argument>
             <tag name="kernel.event_subscriber"/>
         </service>
     </services>
 
+    <hooks>
+        <hook id="maintenance.warning" class="Maintenance\Hook\HookManager">
+            <tag name="hook.event_listener" event="main.body-top" type="front" method="onMainBodyTop" />
+        </hook>
 
+        <hook id="maintenance.configuration.hook" class="Maintenance\Hook\HookManager">
+            <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfigure" />
+        </hook>
+
+        <hook id="maintenance.menutools.hook" class="Maintenance\Hook\HookManager">
+            <tag name="hook.event_listener" event="main.top-menu-tools" type="back" method="onMainTopMenuTools" />
+        </hook>
+    </hooks>
 </config>

@@ -25,16 +25,16 @@
         .message {
             text-align: center;
         }
-        .message > p:nth-child(2) {
+        .message .message-text {
             font-size:16px;
         }
     </style>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
   </head>
   <body class="paper">
     <div class="message">
-        <p>{config key="store_name"}</p>
-        <p>{config key="com.omnitic.maintenance_message"}</p>
+        <p class="store-name">{config key="store_name"}</p>
+        <div class="message-text">{config key="com.omnitic.maintenance_message"}</div>
     </div>
   </body>
 </html>

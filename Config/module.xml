@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module>
+<module xmlns="http://thelia.net/schema/dic/module"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
     <fullnamespace>Maintenance\Maintenance</fullnamespace>
     <descriptive locale="en_US">
         <title>Maintenance mode</title>
@@ -7,12 +9,16 @@
     <descriptive locale="fr_FR">
         <title>Mode Maintenance</title>
     </descriptive>
-    <version>0.3</version>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>0.8</version>
     <author>
-        <name>Nicolas Léon</name>
-        <email>nicolas@omnitic.com</email>
+        <name>Nicolas Léon, Franck Allimant</name>
+        <email>nicolas@omnitic.com, thelia@cqfdev.fr</email>
     </author>
     <type>classic</type>
-    <thelia>2.0.0</thelia>
-    <stability>alpha</stability>
+    <thelia>2.3.0</thelia>
+    <stability>prod</stability>
 </module>

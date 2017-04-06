@@ -16,6 +16,7 @@ use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Model\ConfigQuery;
+use Thelia\Tools\URL;
 
 /**
  * Class MaintenanceAdminController
@@ -38,12 +39,13 @@ class MaintenanceAdminController extends BaseAdminController
 
         try {
             $form = $this->validateForm($m_form, "post");
+
             $data = $form->getData();
 
             ConfigQuery::write('com.omnitic.maintenance_mode', (bool) $data['maintenance_mode']);
             ConfigQuery::write('com.omnitic.maintenance_template_name', $data['maintenance_template_name']);
             ConfigQuery::write('com.omnitic.maintenance_message', $data['maintenance_message']);
-            ConfigQuery::write('com.omnitic.maintenance_allowed_ips', str_replace(' ', '', $data['maintenance_allowed_ips']));
+            ConfigQuery::write('com.omnitic.maintenance_allowed_ips', preg_replace("/\s/", '', $data['maintenance_allowed_ips']));
 
         } catch (FormValidationException $e) {
             $error_message = $this->createStandardFormValidationErrorMessage($e);
@@ -60,12 +62,6 @@ class MaintenanceAdminController extends BaseAdminController
             ;
         }
 
-        return $this->render(
-            "module-configure",
-            [
-                'module_code' => 'Maintenance'
-            ]
-        );
+        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/Maintenance'));
     }
-
 }

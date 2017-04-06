@@ -21,21 +21,21 @@
             color: #fff;
             font-size:24px;
         }
-        .message > p:nth-child(3) {
+        .message .store-name {
             font-size:18px;
         }
         .fa {
             font-size:80px;
         }
     </style>
-    <link href='http://fonts.googleapis.com/css?family=Ubuntu:600' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Ubuntu:600' rel='stylesheet' type='text/css'>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body class="paper">
     <div class="message">
         <p><i class="fa fa-clock-o"></i></p>
-        <p>{config key="com.omnitic.maintenance_message"}</p>
-        <p>{config key="store_name"}</p>
+        <div class="message-text">{config key="com.omnitic.maintenance_message"}</div>
+        <p class="store-name">{config key="store_name"}</p>
     </div>
   </body>
 </html>
