@@ -16,6 +16,7 @@ use Maintenance\Maintenance;
 use Thelia\Core\Event\Hook\HookRenderBlockEvent;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
+use Thelia\Model\ConfigQuery;
 use Thelia\Tools\URL;
 
 /**
@@ -28,7 +29,9 @@ class HookManager extends BaseHook
 {
     public function onMainBodyTop(HookRenderEvent $event)
     {
-        $event->add($this->render("maintenance/maintenance_warning.html"));
+        if (ConfigQuery::read('com.omnitic.maintenance_mode')) {
+            $event->add($this->render("maintenance/maintenance_warning.html"));
+        }
     }
 
     public function onMainTopMenuTools(HookRenderBlockEvent $event)
