@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-12 general-block-decorator">
+        <div class="row">
+            <div class="col-md-12 title title-without-tabs">
+                {intl d="maintenance.fo.default" l="Maintenance mode"}
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <p>{intl d="maintenance.fo.default" l="Le mode maintenance permet de fermer temporairement votre boutique, en affichant un message de votre choix à vos visiteurs."}</p>
+                        <p>{intl d="maintenance.fo.default" l="Sur cette page vous pouvez activer ou désactiver le mode maintenance, configurer les accès autorisés et régler les paramètres d'affichage."}</p>
+                        <p>{intl d="maintenance.fo.default" l="Vous conservez toujours un accès à la boutique si vous etes connecté en tant qu'administrateur, ou accédez à la boutique en mode développement. Dans ce cas, un rappel du mode maintenance est affiché sur la boutique. Vous pouvez le modifier dans le template frontOffice/default/maintenance/maintenance_warning.html."}</p>
+                    </div>
+                    
+                    {form name="admin_maintenance_settings"}
+                    <form action="{url path="/admin/module/maintenance/configure"}" method="post">
+                        {if $form_error}
+                            <div class="alert alert-danger">{$form_error_message}</div>
+                        {/if}
+
+                        {form_hidden_fields}
+
+                        {render_form_field field="maintenance_mode" value={config key="com.omnitic.maintenance_mode"}}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {custom_render_form_field field="maintenance_template_name"}
+                                    <div class="input-group">
+                                        <input type="text" {form_field_attributes field="maintenance_template_name" value={config key="com.omnitic.maintenance_template_name"}}>
+                                        <span class="input-group-btn">
+                                            <a href="{url path="/maintenance-preview"}" class="btn btn-info" target="maintenance_preview" title="{intl d="maintenance.fo.default" l="Save your changes to get proper preview !"}">{intl d="maintenance.fo.default" l="Preview"}</a>
+                                        </span>
+                                    </div>
+                                {/custom_render_form_field}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                {render_form_field field="maintenance_allowed_ips" value={config key="com.omnitic.maintenance_allowed_ips"}}
+                            </div>
+                        </div>
+                        
+                        {render_form_field field="maintenance_message" value={config key="com.omnitic.maintenance_message"} extra_class="wysiwyg"}
+
+                        <div class="form-group">
+                            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-success" title="{intl l='Save changes'}">{intl l='Save changes'} <span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                    </form>
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

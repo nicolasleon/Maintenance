@@ -36,11 +36,11 @@ Under the Configure tab you can set the following options:
 Click on "Configure" button and check "Put the store in maintenance mode".
 Define the message displayed to the shop visitors in Reminder message field.
 
-The maintenance templates are stored in Maintenance/templates/frontOffice/maintenance_module folder. There are 3 samples maintenance templates provided (maintenance, simple and light) with the modules. Feel free to customize them to best match your store design.
+The maintenance templates are stored in Maintenance/templates/frontOffice/default/maintenance folder. There are 3 samples maintenance templates provided (maintenance, simple and light) with the modules. Feel free to customize them to best match your store design.
 
 Save you settings. The store is now in maintenance mode.
 
-Any store admin can still accesss the store in maintenance mode (They will see the reminder message at the top of the page).
+Any store admin can still accesss the store in maintenance mode (They will see the reminder message at the top of the page). The sotre remains visible if accessed in developement mode (you know, index_dev.php)
 
 
 # Module Mode Maintenance pour Thelia 2 (fr_FR)
@@ -81,8 +81,9 @@ Réglez les paramètres du module, cochez la case "Afficher le mode maintenance"
 Click on "Configure" button and check "Put the store in maintenance mode".
 Define the message displayed to the shop visitors in Reminder message field.
 
-Les templates du mode maintenance sont définis dans /templates/frontOffice/module_maintenance. N'hésitez pas à personnaliser les 3 (maintenance, simple et light) exemples fournis pour mieux correspondre au design de votre boutique.
+Les templates du mode maintenance sont définis dans Maintenance/templates/frontOffice/default/maintenance. N'hésitez pas à personnaliser les 3 (maintenance, simple et light) exemples fournis pour mieux correspondre au design de votre boutique, ou a créer le vôtre.
 
-Enregistrez vos paramètres. La boutique est en mode maintenance. Pour quittez le mode maintenance décochez la case et enregistreé votre configuration.
+Enregistrez vos paramètres. La boutique est en mode maintenance. Pour quittez le mode maintenance décochez la case et enregistrez votre configuration.
 
-Dans le mode maintenance, les utilisateurs connectés au backoffice Thelia accèdent normalement à la boutique (un message est affiché en haut des pages rappelle que le mode maintenance est activé).
+Dans le mode maintenance, les utilisateurs connectés au back office Thelia accèdent normalement à la boutique (un message est affiché en haut des pages rappelle que le mode maintenance est activé).
+Vous pouvez toujours accéder à la boutique en mode développement (vous savez, index_dev.php).

@@ -19,11 +19,9 @@ class Maintenance extends BaseModule
     const MESSAGE_DOMAIN = "maintenance";
 
     private $settings = [
-        'com.omnitic.maintenance_mode' => 1,
+        'com.omnitic.maintenance_mode' => 0,
         'com.omnitic.maintenance_template_name' => 'maintenance',
         'com.omnitic.maintenance_message' => 'Nous mettons à jour notre boutique. Revenez nous voir dans quelques minutes.',
-        'com.omnitic.maintenance_class_name' => 'maintenance-reminder',
-        'com.omnitic.maintenance_wrapper_tag' => 'div',
         'com.omnitic.maintenance_allowed_ips' => '',
     ];
 

@@ -4,6 +4,14 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <route id="maintenance.front" path="/maintenance">
+        <default key="_controller">Maintenance\Controller\MaintenanceController::displayMaintenance</default>
+    </route>
+
+    <route id="maintenance.back-preview" path="/maintenance-preview">
+        <default key="_controller">Maintenance\Controller\MaintenanceController::displayMaintenance</default>
+    </route>
+
     <route id="maintenance.home" path="/admin/module/maintenance">
         <default key="_controller">Maintenance\Controller\MaintenanceAdminController::indexAction</default>
     </route>
